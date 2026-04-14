@@ -1,8 +1,8 @@
 app_name = "badria_pwa"
-app_title = "Badria PWA"
+app_title = "Badria PWA App"
 app_publisher = "Enfono"
-app_description = "Badiria PWA"
-app_email = "neha@enfono.com"
+app_description = "Badria PWA App"
+app_email = "nah@enfono.com"
 app_license = "mit"
 
 # Apps
@@ -15,7 +15,7 @@ app_license = "mit"
 # 	{
 # 		"name": "badria_pwa",
 # 		"logo": "/assets/badria_pwa/logo.png",
-# 		"title": "Badria PWA",
+# 		"title": "Badria PWA App",
 # 		"route": "/badria_pwa",
 # 		"has_permission": "badria_pwa.api.permission.has_app_permission"
 # 	}

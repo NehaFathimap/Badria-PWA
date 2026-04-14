@@ -1,9 +1,9 @@
 [project]
 name = "badria_pwa"
 authors = [
-    { name = "Enfono", email = "neha@enfono.com"}
+    { name = "Enfono", email = "nah@enfono.com"}
 ]
-description = "Badiria PWA"
+description = "Badria PWA App"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]

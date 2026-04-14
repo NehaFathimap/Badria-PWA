@@ -1,6 +1,6 @@
-### Badria PWA
+### Badria PWA App
 
-Badiria PWA
+Badria PWA App
 
 ### Installation
 
