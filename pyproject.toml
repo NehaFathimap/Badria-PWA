@@ -3,7 +3,7 @@ name = "badria_pwa"
 authors = [
     { name = "Enfono", email = "neha@enfono.com"}
 ]
-description = "Badria PWA app "
+description = "Badiria PWA"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
