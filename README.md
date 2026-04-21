@@ -1,41 +1,54 @@
-### Badria PWA App
+# Badria PWA — Van Sales PWA for ERPNext
 
-Badria PWA App
+## ⚠️ Installation (Important)
 
-### Installation
+**Do NOT use `bench get-app` directly.** Use the install script below:
 
-You can install this app using the [bench](https://github.com/frappe/bench) CLI:
-
-```bash
-cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch develop
-bench install-app badria_pwa
-```
-
-### Contributing
-
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
+### Option 1 — One-line installer (Recommended)
 
 ```bash
-cd apps/badria_pwa
-pre-commit install
+cd ~/fifteen-bench
+bash <(curl -s https://raw.githubusercontent.com/NehaFathimap/badria_pwa/develop/install.sh) ~/fifteen-bench your-site-name
 ```
 
-Pre-commit is configured to use the following tools for checking and formatting your code:
+### Option 2 — Manual steps
 
-- ruff
-- eslint
-- prettier
-- pyupgrade
+```bash
+# 1. Clean old folders
+rm -rf ~/fifteen-bench/apps/badria_pwa
+rm -rf ~/fifteen-bench/apps/Badria-PWA
+rm -rf ~/fifteen-bench/archived/apps/badria_pwa*
 
-### CI
+# 2. Uninstall old pip package
+~/fifteen-bench/env/bin/pip uninstall badria_pwa Badria-PWA -y
 
-This app can use GitHub Actions for CI. The following workflows are configured:
+# 3. Clone directly
+cd ~/fifteen-bench/apps
+git clone https://github.com/NehaFathimap/badria_pwa.git --branch develop
 
-- CI: Installs this app and runs unit tests on every push to `develop` branch.
-- Linters: Runs [Frappe Semgrep Rules](https://github.com/frappe/semgrep-rules) and [pip-audit](https://pypi.org/project/pip-audit/) on every pull request.
+# 4. Install
+cd ~/fifteen-bench
+~/fifteen-bench/env/bin/pip install -e ~/fifteen-bench/apps/badria_pwa
+bench --site your-site install-app badria_pwa
+bench build --app badria_pwa
+bench restart
+```
 
+## Features
 
-### License
+| Module | Description |
+|---|---|
+| 📊 Dashboard | Today Sales, Collections (Cash + Bank) KPIs |
+| 🧾 Sales Invoices | Create, submit, print with UOM and discount |
+| 📋 Quotations | Create, submit, convert to Sales Order |
+| 🛒 Sales Orders | Create, submit, convert to Invoice |
+| 👥 Customers | List with outstanding balance, add new |
+| 👤 Leads | Prospect management |
+| 📦 Stock | Real-time warehouse stock balance |
+| 💰 Payments | Collect against outstanding invoices |
+| 🔄 Returns | Sales returns / credit notes |
+| 📲 PWA | Installable on Android & iOS |
 
-mit
+## Access
+
+After install open: `http://your-site/badria_pwa`
