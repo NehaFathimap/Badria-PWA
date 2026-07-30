@@ -1,0 +1,14 @@
+{
+ "content": null,
+ "doctype": "Page",
+ "module": "Badria PWA App",
+ "name": "bulk-production-entry",
+ "page_name": "bulk-production-entry",
+ "roles": [
+  {"role": "HR Manager"},
+  {"role": "HR User"},
+  {"role": "System Manager"}
+ ],
+ "standard": "Yes",
+ "title": "Bulk Production Entry"
+}
