@@ -14,3 +14,16 @@ website_redirects = [
 
 after_install   = "badria_pwa.install.setup.after_install"
 after_uninstall = "badria_pwa.install.setup.after_uninstall"
+
+# Form scripts. Needs `bench build --app badria_pwa` after install/update.
+doctype_js = {
+    "Stock Entry": "public/js/stock_entry.js",
+}
+
+# Custom Field Stock Entry.custom_production_template — re-applied on migrate.
+fixtures = [
+    {
+        "dt": "Custom Field",
+        "filters": [["name", "in", ["Stock Entry-custom_production_template"]]],
+    },
+]

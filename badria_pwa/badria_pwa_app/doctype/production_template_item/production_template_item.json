@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "creation": "2026-08-11 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "qty",
+  "uom",
+  "s_warehouse",
+  "t_warehouse",
+  "is_finished_item",
+  "is_scrap_item"
+ ],
+ "fields": [
+  {
+   "columns": 3,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.stock_uom",
+   "fetch_if_empty": 1,
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
+  },
+  {
+   "columns": 2,
+   "fieldname": "s_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Source Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "columns": 2,
+   "fieldname": "t_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "description": "A Manufacture entry will not save unless at least one row is flagged as the finished good.",
+   "fieldname": "is_finished_item",
+   "fieldtype": "Check",
+   "label": "Is Finished Item"
+  },
+  {
+   "fieldname": "is_scrap_item",
+   "fieldtype": "Check",
+   "label": "Is Scrap Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-11 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Badria PWA App",
+ "name": "Production Template Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
