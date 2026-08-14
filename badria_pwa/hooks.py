@@ -21,6 +21,11 @@ doc_events = {
     },
 }
 
+# Form scripts. Needs `bench build --app badria_pwa` after install/update.
+doctype_js = {
+    "Stock Entry": "public/js/stock_entry.js",
+}
+
 fixtures = [
 	"Client Script",
 	{
@@ -33,8 +38,10 @@ fixtures = [
 					"Full and Final Statement-custom_settlement_type",
 					"Stock Entry-custom_employee_details_tab",
 					"Stock Entry-custom_shift_type",
+					"Stock Entry-custom_department",
 					"Stock Entry-custom_shift_employees_section",
 					"Stock Entry-custom_shift_employees",
+					"Stock Entry-custom_production_template",
 				],
 			]
 		],

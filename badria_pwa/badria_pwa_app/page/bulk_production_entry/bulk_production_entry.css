@@ -1,0 +1,113 @@
+.bpe-wrapper {
+    max-width: 780px;
+}
+
+.bpe-card {
+    background: var(--card-bg, var(--fg-color));
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md, 8px);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.bpe-card-title {
+    font-weight: 600;
+    font-size: var(--text-lg);
+    margin-bottom: 14px;
+}
+
+.bpe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+}
+
+.bpe-grid .bpe-field {
+    margin-bottom: 10px;
+}
+
+.bpe-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+.bpe-hint {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: 12px;
+}
+
+.bpe-summary-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: var(--subtle-fg, var(--control-bg));
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    border-radius: var(--border-radius-md, 8px) var(--border-radius-md, 8px) 0 0;
+    font-size: var(--text-sm);
+}
+
+.bpe-summary-bar .bpe-total {
+    font-weight: 600;
+}
+
+.bpe-table-shell {
+    max-height: 440px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 0 0 var(--border-radius-md, 8px) var(--border-radius-md, 8px);
+}
+
+.bpe-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+}
+
+.bpe-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--subtle-fg, var(--control-bg));
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    z-index: 1;
+}
+
+.bpe-table tbody td {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.bpe-table tbody tr:nth-child(even) {
+    background: var(--subtle-accent, rgba(0, 0, 0, 0.015));
+}
+
+.bpe-table tbody tr.bpe-row-excluded {
+    opacity: 0.45;
+}
+
+.bpe-table tbody tr.bpe-row-excluded .bpe-row-qty {
+    text-decoration: line-through;
+}
+
+.bpe-weekend-label {
+    color: var(--text-muted);
+}
+
+.bpe-row-qty {
+    width: 110px;
+    text-align: right;
+}
+
+.bpe-create-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}

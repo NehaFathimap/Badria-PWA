@@ -4,6 +4,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils import flt
 
 
 class ProductionEntry(Document):
@@ -12,7 +13,7 @@ class ProductionEntry(Document):
         self.validate_duplicate_entry()
 
     def validate_quantity(self):
-        if self.production_quantity <= 0:
+        if flt(self.production_quantity) <= 0:
             frappe.throw(_("Production Quantity must be greater than 0."))
 
     def validate_duplicate_entry(self):
@@ -28,6 +29,6 @@ class ProductionEntry(Document):
         if existing:
             frappe.throw(
                 _("Production Entry {0} already exists for Employee {1} on {2}.").format(
-                    frappe.bold(existing), self.employee, self.date
+                    frappe.utils.get_link_to_form("Production Entry", existing), self.employee, self.date
                 )
             )

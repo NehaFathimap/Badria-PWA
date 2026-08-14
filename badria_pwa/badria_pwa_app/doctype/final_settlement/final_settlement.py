@@ -48,3 +48,12 @@ class FinalSettlement(Document):
     def on_submit(self):
         if self.settlement_status == "Draft":
             frappe.throw(_("Please Calculate Settlement before submitting."))
+
+    def on_cancel(self):
+        payment_entry = self.get("payment_entry")
+        if payment_entry:
+            frappe.throw(
+                _(
+                    "Cannot cancel {0}: Payment Entry {1} is already linked. Cancel the Payment Entry first."
+                ).format(self.name, payment_entry)
+            )
