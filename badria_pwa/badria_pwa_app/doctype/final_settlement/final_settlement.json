@@ -1,0 +1,649 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-07-14 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "employee",
+  "employee_name",
+  "company",
+  "settlement_type",
+  "column_break_period",
+  "from_date",
+  "to_date",
+  "posting_date",
+  "section_break_employee_details",
+  "salary_structure",
+  "column_break_emp_details",
+  "basic_salary",
+  "section_break_attendance",
+  "working_days",
+  "column_break_attendance",
+  "non_working_days",
+  "section_break_production",
+  "total_production",
+  "above_minimum_days",
+  "minimum_production_per_day",
+  "minimum_required_production",
+  "column_break_production",
+  "additional_production",
+  "incentive_rate",
+  "incentive_amount",
+  "incentive_salary_component",
+  "section_break_below_minimum",
+  "below_minimum_days",
+  "below_minimum_quantity",
+  "column_break_below_minimum",
+  "below_minimum_incentive_amount",
+  "below_minimum_salary_component",
+  "section_break_sales",
+  "total_sales_amount",
+  "total_sales_amount_excl_vat",
+  "total_cash_collected",
+  "total_outstanding_amount",
+  "column_break_sales_totals",
+  "collection_percentage",
+  "vat_percentage",
+  "vat_amount",
+  "column_break_sales",
+  "net_sales",
+  "fixed_incentive_percentage",
+  "fixed_incentive_amount",
+  "sales_incentive_salary_component",
+  "performance_incentive_percentage",
+  "performance_incentive_amount",
+  "performance_incentive_salary_component",
+  "total_incentive",
+  "section_break_earnings",
+  "other_salary_component",
+  "other_deductions",
+  "other_allowances",
+  "other_additions",
+  "column_break_earnings",
+  "total_basic_salary",
+  "gross_settlement",
+  "section_break_advances",
+  "total_advance_paid",
+  "total_payment_entry_paid",
+  "column_break_advances",
+  "balance_payable",
+  "section_break_status",
+  "settlement_status",
+  "column_break_status",
+  "section_break_incentive_records",
+  "employee_incentive",
+  "performance_employee_incentive",
+  "below_minimum_employee_incentive",
+  "other_employee_incentive",
+  "below_minimum_deduction"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "FS-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "default": "Production",
+   "fieldname": "settlement_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Settlement Type",
+   "options": "Production\nSales",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_period",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Joining Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Final Settlement Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_employee_details",
+   "fieldtype": "Section Break",
+   "label": "Employee Details"
+  },
+  {
+   "fieldname": "salary_structure",
+   "fieldtype": "Link",
+   "label": "Salary Structure",
+   "options": "Salary Structure",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_emp_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "basic_salary",
+   "fieldtype": "Currency",
+   "label": "Monthly Basic Salary",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_attendance",
+   "fieldtype": "Section Break",
+   "label": "Attendance & Leave"
+  },
+  {
+   "fieldname": "working_days",
+   "fieldtype": "Float",
+   "label": "Number of Days Worked",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_attendance",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "non_working_days",
+   "fieldtype": "Float",
+   "label": "Non-Working Days",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "section_break_production",
+   "fieldtype": "Section Break",
+   "label": "Production (20 & Above)"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "total_production",
+   "fieldtype": "Float",
+   "label": "Total Quantity Produced",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "description": "Present days with production at or above the Minimum Quantity Required Per Day.",
+   "fieldname": "above_minimum_days",
+   "fieldtype": "Float",
+   "label": "Total Above Working Days",
+   "read_only": 1
+  },
+  {
+   "default": "20",
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "minimum_production_per_day",
+   "fieldtype": "Int",
+   "label": "Minimum Quantity Required Per Day"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "minimum_required_production",
+   "fieldtype": "Float",
+   "label": "Minimum Required Production",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "column_break_production",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "additional_production",
+   "fieldtype": "Float",
+   "label": "Additional Produced Quantity",
+   "read_only": 1
+  },
+  {
+   "default": "4",
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "description": "Incentive amount per unit of additional production. Default SAR 4; ",
+   "fieldname": "incentive_rate",
+   "fieldtype": "Currency",
+   "label": "Overtime Quantity Rate",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "incentive_amount",
+   "fieldtype": "Currency",
+   "label": "Incentive on Additional Production",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "section_break_below_minimum",
+   "fieldtype": "Section Break",
+   "label": "Production (Below 20)"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "below_minimum_days",
+   "fieldtype": "Float",
+   "label": "Below Minimum Days",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "description": "Total quantity produced on Below Minimum Days.",
+   "fieldname": "below_minimum_quantity",
+   "fieldtype": "Float",
+   "label": "Below Minimum Quantity",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "column_break_below_minimum",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "below_minimum_incentive_amount",
+   "fieldtype": "Currency",
+   "label": "Below Minimum Incentive Amount",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "fieldname": "below_minimum_salary_component",
+   "fieldtype": "Link",
+   "label": "Below Minimum Salary Component",
+   "mandatory_depends_on": "eval:doc.settlement_type=='Production' && doc.below_minimum_incentive_amount > 0",
+   "options": "Salary Component"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "section_break_sales",
+   "fieldtype": "Section Break",
+   "label": "Sales Incentive"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "From the Sales Collection Report, for this employee's linked Sales Person over the settlement period.",
+   "fieldname": "total_sales_amount",
+   "fieldtype": "Currency",
+   "label": "Total Sales Amount",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "Total Sales Amount with VAT backed out: Grand Total / (1 + VAT %).",
+   "fieldname": "total_sales_amount_excl_vat",
+   "fieldtype": "Currency",
+   "label": "Total Sales Amount (Excl. VAT)",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "From the Sales Collection Report when the employee has a linked Sales Person; otherwise entered manually.",
+   "fieldname": "total_cash_collected",
+   "fieldtype": "Currency",
+   "label": "Total Cash Collected",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "From the Sales Collection Report, for this employee's linked Sales Person over the settlement period.",
+   "fieldname": "total_outstanding_amount",
+   "fieldtype": "Currency",
+   "label": "Total Outstanding Amount",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "column_break_sales_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "collection_percentage",
+   "fieldtype": "Percent",
+   "label": "Collection %",
+   "read_only": 1
+  },
+  {
+   "default": "15",
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "VAT rate included in Total Cash Collected. Used to back out VAT and Net Sales.",
+   "fieldname": "vat_percentage",
+   "fieldtype": "Percent",
+   "label": "VAT %"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "vat_amount",
+   "fieldtype": "Currency",
+   "label": "VAT Amount",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "column_break_sales",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "net_sales",
+   "fieldtype": "Currency",
+   "label": "Net Sales for Incentive Calculation",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "default": "4",
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "Fixed incentive percentage on Net Sales. Default 4%; adjust before calculating if needed.",
+   "fieldname": "fixed_incentive_percentage",
+   "fieldtype": "Percent",
+   "label": "Fixed Incentive %"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "fixed_incentive_amount",
+   "fieldtype": "Currency",
+   "label": "Fixed Incentive Amount",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "Performance-based incentive percentage on Net Sales. Cannot exceed 1%.",
+   "fieldname": "performance_incentive_percentage",
+   "fieldtype": "Percent",
+   "label": "Performance Incentive %"
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "performance_incentive_amount",
+   "fieldtype": "Currency",
+   "label": "Performance Incentive Amount",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "fieldname": "total_incentive",
+   "fieldtype": "Currency",
+   "label": "Total Achieved Incentive",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_earnings",
+   "fieldtype": "Section Break",
+   "label": "Earnings"
+  },
+  {
+   "fieldname": "total_basic_salary",
+   "fieldtype": "Currency",
+   "label": "Total Basic Salary",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "other_allowances",
+   "fieldtype": "Currency",
+   "label": "Other Allowance",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "default": "0",
+   "fieldname": "other_additions",
+   "fieldtype": "Currency",
+   "label": "Other Additions",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "column_break_earnings",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "other_deductions",
+   "fieldtype": "Currency",
+   "label": "Other Deductions",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "gross_settlement",
+   "fieldtype": "Currency",
+   "label": "Total Earnings on Settlement",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_advances",
+   "fieldtype": "Section Break",
+   "label": "Advances & Balance"
+  },
+  {
+   "fieldname": "total_advance_paid",
+   "fieldtype": "Currency",
+   "label": "Total Employee Advance Paid",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_payment_entry_paid",
+   "fieldtype": "Currency",
+   "label": "Total Payment Entry Paid",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_advances",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "balance_payable",
+   "fieldtype": "Currency",
+   "label": "Balance Due",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "settlement_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Settlement Status",
+   "options": "Draft\nCalculated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_incentive_records",
+   "fieldtype": "Section Break",
+   "label": "Incentive Records"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.settlement_type=='Production'",
+   "description": "Used for the main incentive amount on Create Employee Incentive - Incentive on Additional Production.",
+   "fieldname": "incentive_salary_component",
+   "fieldtype": "Link",
+   "label": "Incentive Salary Component",
+   "options": "Salary Component"
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "Used for the Fixed Incentive Amount on Create Employee Incentive.",
+   "fieldname": "sales_incentive_salary_component",
+   "fieldtype": "Link",
+   "label": "Fixed Incentive Salary Component",
+   "options": "Salary Component"
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "Used for the Performance Incentive Amount on Create Employee Incentive.",
+   "fieldname": "performance_incentive_salary_component",
+   "fieldtype": "Link",
+   "label": "Performance Incentive Salary Component",
+   "options": "Salary Component"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "other_salary_component",
+   "fieldtype": "Link",
+   "label": "Other Salary Component",
+   "options": "Salary Component"
+  },
+  {
+   "description": " Employee Incentive created from the 20-and-above incentive amount (Production) or the Fixed Incentive Amount (Sales).",
+   "fieldname": "employee_incentive",
+   "fieldtype": "Link",
+   "label": "Employee Incentive",
+   "no_copy": 1,
+   "options": "Employee Incentive",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.settlement_type=='Sales'",
+   "description": "Employee Incentive created from the Performance Incentive Amount.",
+   "fieldname": "performance_employee_incentive",
+   "fieldtype": "Link",
+   "label": "Performance Employee Incentive",
+   "no_copy": 1,
+   "options": "Employee Incentive",
+   "read_only": 1
+  },
+  {
+   "description": "Employee Incentive created from the Below Minimum Incentive Amount.",
+   "fieldname": "below_minimum_employee_incentive",
+   "fieldtype": "Link",
+   "label": "Below Minimum Employee Incentive",
+   "no_copy": 1,
+   "options": "Employee Incentive",
+   "read_only": 1
+  },
+  {
+   "description": " Employee Incentive created from Other Allowance + Other Additions.",
+   "fieldname": "other_employee_incentive",
+   "fieldtype": "Link",
+   "label": "Other Employee Incentive",
+   "no_copy": 1,
+   "options": "Employee Incentive",
+   "read_only": 1
+  },
+  {
+   "description": "Additional Salary (Deduction component) created from the Below Minimum Incentive Amount.",
+   "fieldname": "below_minimum_deduction",
+   "fieldtype": "Link",
+   "label": "Below Minimum Deduction",
+   "no_copy": 1,
+   "options": "Additional Salary",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-18 14:52:12.206476",
+ "modified_by": "Administrator",
+ "module": "Badria PWA App",
+ "name": "Final Settlement",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

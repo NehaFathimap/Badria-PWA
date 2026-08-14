@@ -1,0 +1,157 @@
+<style>
+  @page { size: A4; margin: 12mm; }
+  .fs-sheet * { box-sizing: border-box; }
+  .fs-sheet {
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 12px;
+    color: #000;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .fs-title { font-weight: bold; font-size: 24px; margin-bottom: 4px; }
+  .fs-subtitle { font-size: 13px; color: #444; margin-bottom: 10px; }
+
+  .fs-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .fs-name-value {
+    font-weight: bold;
+    font-size: 15px;
+    color: #002060;
+    border-bottom: 1px solid #000;
+    padding: 2px 6px;
+  }
+
+  .fs-info-grid {
+    display: grid;
+    grid-template-columns: 120px 1fr 120px 1fr;
+    gap: 4px 10px;
+    margin-bottom: 14px;
+  }
+  .fs-info-grid .lbl { font-weight: bold; text-align: left; }
+  .fs-info-grid .val { font-weight: 500; }
+
+  table.fs-particulars {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  table.fs-particulars th {
+    border-bottom: 2px dashed #666;
+    padding: 4px 6px;
+    text-align: center;
+    font-size: 12px;
+  }
+  table.fs-particulars td {
+    padding: 5px 6px;
+    font-size: 12.5px;
+  }
+  table.fs-particulars td.label { text-align: right; }
+  table.fs-particulars td.val { text-align: center; font-weight: bold; border-bottom: 1px solid #000; }
+  table.fs-particulars tr.total td { font-weight: bold; font-size: 13.5px; border-top: 1px solid #000; border-bottom: 1px solid #000; }
+  table.fs-particulars tr.balance td { font-weight: bold; font-size: 14px; border-top: 3px double #000; border-bottom: 3px double #000; }
+
+  .fs-section-title { font-weight: bold; margin: 16px 0 6px; }
+
+  table.fs-incentive {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  table.fs-incentive th {
+    background: #f2f2f2;
+    border: 1px solid #999;
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+  table.fs-incentive td {
+    border: 1px solid #ccc;
+    padding: 4px 6px;
+    font-size: 12.5px;
+  }
+  table.fs-incentive td.label { text-align: right; border: none; }
+  table.fs-incentive td.val { text-align: center; }
+
+  .fs-signature { margin-top: 30px; }
+  .fs-signature .role { margin-bottom: 40px; font-weight: bold; }
+  .fs-confirmation { font-size: 12px; line-height: 1.5; margin-top: 10px; }
+  .fs-sign-name { margin-top: 40px; font-weight: 500; border-top: 1px solid #000; width: 260px; padding-top: 4px; }
+</style>
+
+{% if letter_head %}<div class="letter-head">{{ letter_head }}</div>{% endif %}
+
+<div class="fs-sheet">
+
+{% if doc.settlement_type != "Production" %}
+
+<p><b>{{ _("This print format is for Production settlements only.") }}</b>
+{{ _("{0} is a {1} settlement.").format(doc.name, doc.settlement_type) }}</p>
+
+{% else %}
+
+<div class="fs-title">{{ _("Final Settlement") }}</div>
+<div class="fs-subtitle">{{ _("Production Staff") }} &middot; {{ doc.company }}</div>
+
+<div class="fs-header-row">
+  <span>{{ _("Doc No") }}: <b>{{ doc.name }}</b></span>
+  <span class="fs-name-value">{{ doc.employee_name }}</span>
+</div>
+
+<div class="fs-info-grid">
+  <div class="lbl">{{ _("Employee #") }}</div><div class="val">{{ doc.employee }}</div>
+  <div class="lbl">{{ _("Designation") }}</div><div class="val">{{ frappe.db.get_value("Employee", doc.employee, "designation") or "" }}</div>
+
+  <div class="lbl">{{ _("Settlement Period") }}</div><div class="val">{{ doc.get_formatted("from_date") }} - {{ doc.get_formatted("to_date") }}</div>
+  <div class="lbl">{{ _("Doc. Date") }}</div><div class="val">{{ doc.get_formatted("posting_date") }}</div>
+</div>
+
+<table class="fs-particulars">
+  <tr><th style="text-align:left;">{{ _("Particulars") }}</th><th>{{ _("Days") }}</th><th>{{ _("Amount") }}</th></tr>
+  <tr><td class="label">{{ _("Monthly Basic Salary") }} :</td><td></td><td class="val">{{ doc.get_formatted("basic_salary") }}</td></tr>
+  <tr><td class="label">{{ _("Number of Days Worked") }} :</td><td class="val">{{ doc.get_formatted("working_days") }}</td><td></td></tr>
+  <tr><td class="label">{{ _("Non-Working Days") }} :</td><td class="val">{{ doc.get_formatted("non_working_days") }}</td><td></td></tr>
+  <tr><td class="label">{{ _("Total Basic Salary") }} :</td><td></td><td class="val">{{ doc.get_formatted("total_basic_salary") }}</td></tr>
+  {% if frappe.utils.flt(doc.below_minimum_incentive_amount) > 0 %}
+  <tr><td class="label">{{ _("Less: Below Minimum Production Deduction") }} :</td><td></td><td class="val">-{{ doc.get_formatted("below_minimum_incentive_amount") }}</td></tr>
+  {% endif %}
+  <tr><td class="label">{{ _("Incentive on Additional QTY Production") }} :</td><td></td><td class="val">{{ doc.get_formatted("incentive_amount") }}</td></tr>
+  <tr><td class="label">{{ _("Other Allowance if any") }} :</td><td></td><td class="val">{{ doc.get_formatted("other_allowances") }}</td></tr>
+  <tr><td class="label">{{ _("Other Additions") }} :</td><td></td><td class="val">{{ doc.get_formatted("other_additions") }}</td></tr>
+  <tr><td class="label">{{ _("Other Deductions") }} :</td><td></td><td class="val">-{{ doc.get_formatted("other_deductions") }}</td></tr>
+  <tr class="total"><td class="label">{{ _("Total Earning of the employee as on the settlement time") }} :</td><td></td><td class="val">{{ doc.get_formatted("gross_settlement") }}</td></tr>
+  <tr><td class="label">{{ _("Total Advance Paid") }} :</td><td></td><td class="val">{{ doc.get_formatted("total_advance_paid") }}</td></tr>
+  <tr><td class="label">{{ _("Total Payment Entry Paid") }} :</td><td></td><td class="val">{{ doc.get_formatted("total_payment_entry_paid") }}</td></tr>
+  <tr class="balance"><td class="label">{{ _("Balance Due") }} :</td><td></td><td class="val">{{ doc.get_formatted("balance_payable") }}</td></tr>
+</table>
+
+<div class="fs-section-title">{{ _("Incentive on Produced Quantity") }} -</div>
+<table class="fs-incentive">
+  <tr><th style="text-align:left;">{{ _("Particulars") }}</th><th>{{ _("Value") }}</th></tr>
+  <tr><td class="label">{{ _("Total Quantity Produced") }} :</td><td class="val">{{ doc.get_formatted("total_production") }}</td></tr>
+  <tr><td class="label">{{ _("Minimum Quantity Required Per Day") }} :</td><td class="val">{{ doc.get_formatted("minimum_production_per_day") }}</td></tr>
+  <tr><td class="label">{{ _("Number of Days Worked") }} :</td><td class="val">{{ doc.get_formatted("working_days") }}</td></tr>
+  <tr><td class="label">{{ _("Minimum Required Production") }} :</td><td class="val">{{ doc.get_formatted("minimum_required_production") }}</td></tr>
+  <tr><td class="label">{{ _("Additional Produced Quantity") }} :</td><td class="val">{{ doc.get_formatted("additional_production") }}</td></tr>
+  <tr><td class="label">{{ _("Overtime Quantity Rate") }} :</td><td class="val">{{ doc.get_formatted("incentive_rate") }}</td></tr>
+  <tr><td class="label" style="font-weight:bold;">{{ _("Additional Production Incentive") }} :</td><td class="val" style="font-weight:bold;">{{ doc.get_formatted("incentive_amount") }}</td></tr>
+</table>
+
+{% if frappe.utils.flt(doc.below_minimum_days) > 0 %}
+<div class="fs-section-title">{{ _("Below Minimum Production") }} -</div>
+<table class="fs-incentive">
+  <tr><th style="text-align:left;">{{ _("Particulars") }}</th><th>{{ _("Value") }}</th></tr>
+  <tr><td class="label">{{ _("Below Minimum Days") }} :</td><td class="val">{{ doc.get_formatted("below_minimum_days") }}</td></tr>
+  <tr><td class="label">{{ _("Below Minimum Quantity") }} :</td><td class="val">{{ doc.get_formatted("below_minimum_quantity") }}</td></tr>
+  <tr><td class="label" style="font-weight:bold;">{{ _("Deduction Amount") }} :</td><td class="val" style="font-weight:bold;">{{ doc.get_formatted("below_minimum_incentive_amount") }}</td></tr>
+</table>
+{% endif %}
+
+<div class="fs-signature">
+  <div class="role">{{ _("Managing Director") }}</div>
+  <div class="fs-confirmation">
+    {{ _("I hereby confirm that I have received all my benefits & dues as of {0} and thus I don't have any sort of claim with the company {1}.").format(doc.get_formatted("posting_date"), doc.company) }}
+  </div>
+  <div class="fs-sign-name">{{ doc.employee_name }}</div>
+</div>
+
+{% endif %}
+
+</div>
