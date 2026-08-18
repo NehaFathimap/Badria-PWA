@@ -57,3 +57,34 @@ class FinalSettlement(Document):
                     "Cannot cancel {0}: Payment Entry {1} is already linked. Cancel the Payment Entry first."
                 ).format(self.name, payment_entry)
             )
+        self.cancel_linked_incentives()
+
+    def cancel_linked_incentives(self):
+        for fieldname in (
+            "employee_incentive",
+            "performance_employee_incentive",
+            "below_minimum_employee_incentive",
+            "other_employee_incentive",
+        ):
+            incentive = self.get(fieldname)
+            if incentive:
+                self._cancel_employee_incentive(incentive)
+
+        if self.below_minimum_deduction:
+            self._cancel_if_submitted("Additional Salary", self.below_minimum_deduction)
+
+    def _cancel_employee_incentive(self, name):
+        # Employee Incentive creates its own Additional Salary on submit but has
+        # no on_cancel to reverse it, so both must be cancelled explicitly here.
+        additional_salary = frappe.db.get_value(
+            "Additional Salary",
+            {"ref_doctype": "Employee Incentive", "ref_docname": name, "docstatus": 1},
+        )
+        if additional_salary:
+            self._cancel_if_submitted("Additional Salary", additional_salary)
+        self._cancel_if_submitted("Employee Incentive", name)
+
+    def _cancel_if_submitted(self, doctype, name):
+        doc = frappe.get_doc(doctype, name)
+        if doc.docstatus == 1:
+            doc.cancel()
